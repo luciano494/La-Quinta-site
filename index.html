@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Quinta — Un espacio natural para celebrar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Variables ─────────────────────────────────────────── */
+    :root {
+      --color-bg:       #F7F5F1;
+      --color-surface:  #EDE8DF;
+      --color-text:     #2C2C2A;
+      --color-muted:    #6F6F6F;
+      --color-accent:   #5A6B4D;
+      --color-accent2:  #8DAA7B;
+      --color-sand:     #E6DDCF;
+      --font-display:   'Playfair Display', Georgia, serif;
+      --font-body:      'Lato', sans-serif;
+      --ease:           cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Utility ───────────────────────────────────────────── */
+    .container {
+      width: min(90%, 1100px);
+      margin-inline: auto;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Nav ───────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.4rem 0;
+      transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(247,245,241,0.96);
+      backdrop-filter: blur(8px);
+      padding: 0.9rem 0;
+      box-shadow: 0 1px 0 rgba(90,107,77,0.12);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-accent);
+    }
+    .nav-logo span {
+      font-style: italic;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      opacity: 0.7;
+      transition: opacity 0.25s ease;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    .nav-cta {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      border: 1px solid var(--color-accent);
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .nav-cta:hover {
+      background: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 1.5px;
+      background: var(--color-text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--color-bg);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--color-text);
+    }
+
+    /* ─── Hero ──────────────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10rem 5% 5rem 8%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--color-accent);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--color-text);
+      margin-bottom: 1.75rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--color-accent);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--color-muted);
+      line-height: 1.75;
+      max-width: 400px;
+      margin-bottom: 3rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--color-accent);
+      color: var(--color-bg);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      align-self: flex-start;
+    }
+    .btn-primary:hover {
+      background: #4a5a3d;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(90,107,77,0.3);
+    }
+    .btn-primary svg {
+      transition: transform 0.25s ease;
+    }
+    .btn-primary:hover svg { transform: translateX(4px); }
+
+    .hero-images {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img-main {
+      position: absolute;
+      inset: 0;
+      background: var(--color-surface);
+    }
+    .hero-img-main::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--color-bg) 0%, transparent 30%);
+    }
+
+    /* SVG landscape placeholder */
+    .hero-svg-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-float {
+      position: absolute;
+      bottom: 10%;
+      left: -60px;
+      z-index: 3;
+      background: var(--color-bg);
+      padding: 1.5rem 2rem;
+      width: 200px;
+      border-left: 3px solid var(--color-accent);
+    }
+    .hero-float-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+    .hero-float-label {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-top: 0.3rem;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 8%;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      z-index: 2;
+    }
+    .scroll-line {
+      width: 40px; height: 1px;
+      background: var(--color-muted);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--color-accent);
+      animation: scrollLine 2s ease infinite;
+    }
+    @keyframes scrollLine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* ─── El Lugar ──────────────────────────────────────────── */
+    #lugar {
+      padding: 8rem 0;
+      position: relative;
+    }
+    .lugar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .lugar-visual {
+      position: relative;
+    }
+    .lugar-img-frame {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--color-surface);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .lugar-img-frame::after {
+      content: '';
+      position: absolute;
+      inset: 1rem;
+      border: 1px solid rgba(90,107,77,0.25);
+      border-radius: 1px;
+      pointer-events: none;
+    }
+    .lugar-badge {
+      position: absolute;
+      top: -1.5rem;
+      right: -1.5rem;
+      width: 110px; height: 110px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-bg);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.85rem;
+      text-align: center;
+      line-height: 1.3;
+      padding: 1rem;
+      animation: rotateBadge 20s linear infinite;
+    }
+    @keyframes rotateBadge {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .lugar-badge-inner {
+      animation: rotateBadge 20s linear infinite reverse;
+    }
+
+    .lugar-text { }
+    .section-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--color-text);
+      margin-bottom: 1.75rem;
+    }
+    .section-title em {
+      font-style: italic;
+      color: var(--color-accent);
+    }
+    .section-body {
+      font-size: 1rem;
+      color: var(--color-muted);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+    .divider {
+      width: 48px; height: 1px;
+      background: var(--color-accent);
+      margin: 2rem 0;
+    }
+
+    /* ─── Actividades ───────────────────────────────────────── */
+    #actividades {
+      padding: 8rem 0;
+      background: var(--color-surface);
+    }
+    .actividades-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+    .actividades-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(90,107,77,0.15);
+    }
+    .actividad-card {
+      background: var(--color-bg);
+      padding: 3.5rem 2.5rem;
+      transition: background 0.3s ease;
+      cursor: default;
+    }
+    .actividad-card:hover {
+      background: #fff;
+    }
+    .actividad-icon {
+      width: 52px; height: 52px;
+      background: var(--color-sand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      transition: background 0.3s ease;
+    }
+    .actividad-card:hover .actividad-icon {
+      background: var(--color-accent2);
+    }
+    .actividad-card:hover .actividad-icon svg path,
+    .actividad-card:hover .actividad-icon svg circle,
+    .actividad-card:hover .actividad-icon svg rect {
+      stroke: var(--color-bg);
+    }
+    .actividad-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: var(--color-text);
+    }
+    .actividad-desc {
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      line-height: 1.75;
+    }
+
+    /* ─── El Espacio (specs) ────────────────────────────────── */
+    #espacio {
+      padding: 8rem 0;
+    }
+    .espacio-layout {
+      display: grid;
+      grid-template-columns: 5fr 4fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-top: 3rem;
+      border: 1px solid rgba(90,107,77,0.15);
+    }
+    .spec-item {
+      padding: 2rem 1.75rem;
+      border-right: 1px solid rgba(90,107,77,0.15);
+      border-bottom: 1px solid rgba(90,107,77,0.15);
+      transition: background 0.25s ease;
+    }
+    .spec-item:hover { background: var(--color-surface); }
+    .spec-item:nth-child(even) { border-right: none; }
+    .spec-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+    .spec-value {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--color-text);
+    }
+
+    .capacity-block {
+      background: var(--color-accent);
+      color: var(--color-bg);
+      padding: 3rem 2.5rem;
+      margin-top: 3rem;
+    }
+    .capacity-num {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .capacity-label {
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+    .capacity-note {
+      font-size: 0.85rem;
+      font-weight: 300;
+      opacity: 0.75;
+      line-height: 1.65;
+    }
+
+    /* ─── Galería ───────────────────────────────────────────── */
+    #galeria {
+      padding: 8rem 0;
+      background: var(--color-surface);
+    }
+    .galeria-header {
+      margin-bottom: 4rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 6px;
+    }
+    .gallery-item {
+      background: var(--color-sand);
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--color-accent);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .gallery-item:hover::after { opacity: 0.15; }
+    .gallery-item:nth-child(1) { grid-column: 1 / 6; grid-row: 1; aspect-ratio: 4/3; }
+    .gallery-item:nth-child(2) { grid-column: 6 / 10; grid-row: 1; aspect-ratio: 3/4; }
+    .gallery-item:nth-child(3) { grid-column: 10 / 13; grid-row: 1; aspect-ratio: 3/4; }
+    .gallery-item:nth-child(4) { grid-column: 1 / 5; grid-row: 2; aspect-ratio: 4/3; }
+    .gallery-item:nth-child(5) { grid-column: 5 / 9; grid-row: 2; aspect-ratio: 1; }
+    .gallery-item:nth-child(6) { grid-column: 9 / 13; grid-row: 2; aspect-ratio: 4/3; }
+
+    /* SVG nature scenes inside gallery */
+    .gallery-svg {
+      width: 100%;
+      height: 100%;
+      min-height: 200px;
+    }
+
+    /* ─── Testimonios ───────────────────────────────────────── */
+    #testimonios {
+      padding: 8rem 0;
+    }
+    .testimonios-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .testi-card {
+      padding: 2.5rem;
+      border-top: 2px solid var(--color-accent);
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+    .testi-card:hover { background: var(--color-surface); }
+    .testi-quote {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 400;
+      color: var(--color-accent);
+      line-height: 0.5;
+      margin-bottom: 1.25rem;
+    }
+    .testi-text {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .testi-author {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .testi-role {
+      font-size: 0.78rem;
+      color: var(--color-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Métricas */
+    .metricas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: rgba(90,107,77,0.1);
+      margin-top: 5rem;
+    }
+    .metrica {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-right: 1px solid rgba(90,107,77,0.15);
+      background: var(--color-bg);
+    }
+    .metrica:last-child { border-right: none; }
+    .metrica-num {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 400;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .metrica-label {
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+    }
+
+    /* ─── Cuidado ───────────────────────────────────────────── */
+    #cuidado {
+      padding: 6rem 0;
+      background: var(--color-accent);
+      color: var(--color-bg);
+      position: relative;
+      overflow: hidden;
+    }
+    .cuidado-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .cuidado-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      font-style: italic;
+    }
+    .cuidado-text {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.85;
+      opacity: 0.85;
+    }
+    .cuidado-leaf {
+      position: absolute;
+      right: -5%;
+      bottom: -20%;
+      opacity: 0.06;
+      width: 500px;
+    }
+
+    /* ─── Contacto ──────────────────────────────────────────── */
+    #contacto {
+      padding: 8rem 0;
+    }
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 4fr 5fr;
+      gap: 7rem;
+      align-items: start;
+    }
+    .contacto-info {
+      padding-top: 0.5rem;
+    }
+    .contacto-list {
+      list-style: none;
+      margin-top: 2.5rem;
+    }
+    .contacto-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(90,107,77,0.1);
+      font-size: 0.9rem;
+      color: var(--color-muted);
+    }
+    .contacto-list li strong {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.2rem;
+    }
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #25D366;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border-radius: 2px;
+      margin-top: 2.5rem;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .wa-btn:hover {
+      background: #1ebe57;
+      transform: translateY(-2px);
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.6rem;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid rgba(90,107,77,0.25);
+      padding: 0.75rem 0;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--color-text);
+      outline: none;
+      transition: border-color 0.25s ease;
+      -webkit-appearance: none;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--color-accent);
+    }
+    .form-textarea {
+      resize: none;
+      height: 100px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .form-submit {
+      width: 100%;
+      background: var(--color-accent);
+      color: var(--color-bg);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: none;
+      padding: 1.2rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .form-submit:hover {
+      background: #4a5a3d;
+      transform: translateY(-1px);
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--color-accent);
+    }
+
+    /* ─── CTA Final ─────────────────────────────────────────── */
+    #cta-final {
+      padding: 10rem 0;
+      background: var(--color-surface);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-final-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .cta-watermark {
+      font-family: var(--font-display);
+      font-size: clamp(80px, 18vw, 220px);
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(90,107,77,0.05);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .cta-final-content { position: relative; z-index: 1; }
+    .cta-final-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 1.5rem;
+    }
+    .cta-final-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+      max-width: 700px;
+      margin-inline: auto;
+    }
+    .cta-final-title em {
+      font-style: italic;
+      color: var(--color-accent);
+    }
+    .cta-final-sub {
+      font-size: 1rem;
+      color: var(--color-muted);
+      margin-bottom: 3rem;
+    }
+
+    /* ─── Footer ────────────────────────────────────────────── */
+    footer {
+      background: var(--color-text);
+      color: var(--color-bg);
+      padding: 4rem 0 2.5rem;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(247,245,241,0.1);
+      margin-bottom: 2rem;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--color-accent2);
+      margin-bottom: 1rem;
+    }
+    .footer-tagline {
+      font-size: 0.85rem;
+      font-weight: 300;
+      opacity: 0.5;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+    .footer-col-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent2);
+      margin-bottom: 1.5rem;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .footer-links a {
+      font-size: 0.85rem;
+      font-weight: 300;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+    }
+    .footer-links a:hover { opacity: 1; }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 0.75rem;
+      opacity: 0.3;
+    }
+    .footer-back {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      transition: opacity 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .footer-back:hover { opacity: 1; }
+
+    /* ─── Responsive ────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-content { padding: 8rem 6% 4rem; }
+      .hero-images { display: none; }
+      .hero-float { display: none; }
+      .lugar-grid,
+      .espacio-layout,
+      .cuidado-inner,
+      .contacto-grid,
+      .footer-top { grid-template-columns: 1fr; gap: 3rem; }
+      .actividades-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .metricas { grid-template-columns: 1fr; }
+      .metrica { border-right: none; border-bottom: 1px solid rgba(90,107,77,0.15); }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .gallery-item { grid-column: auto!important; grid-row: auto!important; }
+      .specs-grid { grid-template-columns: 1fr; }
+      .spec-item { border-right: none; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      #actividades, #galeria, #lugar, #espacio,
+      #testimonios, #contacto, #cta-final { padding: 5rem 0; }
+      .hero-content { padding-top: 7rem; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ NAV -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo">La <span>Quinta</span></a>
+    <ul class="nav-links">
+      <li><a href="#lugar">El lugar</a></li>
+      <li><a href="#actividades">Qué hacemos</a></li>
+      <li><a href="#espacio">El espacio</a></li>
+      <li><a href="#galeria">Galería</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Consultar</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#lugar" class="mobile-link">El lugar</a>
+  <a href="#actividades" class="mobile-link">Qué hacemos</a>
+  <a href="#espacio" class="mobile-link">El espacio</a>
+  <a href="#galeria" class="mobile-link">Galería</a>
+  <a href="#contacto" class="mobile-link">Contacto</a>
+</div>
+
+<!-- ═══════════════════════════════════════════ HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-tag">Balcarce, Buenos Aires</p>
+    <h1 class="hero-title">
+      Un espacio natural<br>para <em>celebrar</em><br>y compartir
+    </h1>
+    <p class="hero-sub">
+      La Quinta es un lugar rodeado de verde, pensado para encuentros, celebraciones y experiencias gastronómicas en un ambiente tranquilo y cuidado.
+    </p>
+    <a href="#contacto" class="btn-primary">
+      Consultar disponibilidad
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8H13M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="hero-images">
+    <!-- SVG landscape illustration -->
+    <svg class="hero-svg-bg" viewBox="0 0 700 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Sky -->
+      <rect width="700" height="900" fill="#EDE8DF"/>
+      <!-- Ground -->
+      <ellipse cx="350" cy="820" rx="500" ry="150" fill="#D4CCBA"/>
+      <!-- Far hills -->
+      <ellipse cx="100" cy="500" rx="320" ry="200" fill="#C8D4B8"/>
+      <ellipse cx="600" cy="480" rx="280" ry="180" fill="#BFD0AC"/>
+      <!-- Trees back -->
+      <rect x="80" y="340" width="18" height="120" fill="#7A9468"/>
+      <ellipse cx="89" cy="330" rx="38" ry="50" fill="#6B8A5A"/>
+      <rect x="160" y="360" width="14" height="100" fill="#7A9468"/>
+      <ellipse cx="167" cy="350" rx="30" ry="42" fill="#7B9E66"/>
+      <rect x="560" y="320" width="20" height="130" fill="#7A9468"/>
+      <ellipse cx="570" cy="308" rx="42" ry="55" fill="#5F7A4E"/>
+      <rect x="620" y="350" width="15" height="110" fill="#7A9468"/>
+      <ellipse cx="628" cy="340" rx="32" ry="44" fill="#6B8A5A"/>
+      <!-- Pool -->
+      <rect x="200" y="580" width="300" height="140" rx="12" fill="#A8C4B8" opacity="0.7"/>
+      <rect x="205" y="585" width="290" height="130" rx="10" fill="#B8D4C8" opacity="0.5"/>
+      <!-- Pool water shimmer -->
+      <line x1="220" y1="600" x2="480" y2="600" stroke="#fff" stroke-width="1" opacity="0.4"/>
+      <line x1="230" y1="615" x2="470" y2="615" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
+      <line x1="215" y1="630" x2="485" y2="630" stroke="#fff" stroke-width="1" opacity="0.4"/>
+      <!-- House/salon -->
+      <rect x="240" y="440" width="220" height="140" fill="#D6CFC0"/>
+      <polygon points="230,440 350,380 470,440" fill="#C4BBA8"/>
+      <!-- Windows -->
+      <rect x="260" y="470" width="50" height="60" rx="2" fill="#BFD4C0" opacity="0.8"/>
+      <rect x="390" y="470" width="50" height="60" rx="2" fill="#BFD4C0" opacity="0.8"/>
+      <!-- Door -->
+      <rect x="325" y="510" width="50" height="70" rx="2" fill="#9AAF88"/>
+      <!-- Garden path -->
+      <ellipse cx="350" cy="760" rx="30" ry="100" fill="#C8C0AE" opacity="0.6"/>
+      <!-- Foreground trees -->
+      <rect x="30" y="500" width="22" height="180" fill="#7A9468"/>
+      <ellipse cx="41" cy="485" rx="50" ry="65" fill="#5A6B4D"/>
+      <rect x="640" y="490" width="22" height="190" fill="#7A9468"/>
+      <ellipse cx="651" cy="474" rx="50" ry="65" fill="#5A6B4D"/>
+      <!-- Lights / warmth -->
+      <circle cx="350" cy="500" r="80" fill="#F5E8C8" opacity="0.12"/>
+    </svg>
+
+    <div class="hero-float reveal">
+      <div class="hero-float-num">60+</div>
+      <div class="hero-float-label">personas en un entorno natural</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Descubrí el lugar
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ EL LUGAR -->
+<section id="lugar">
+  <div class="container">
+    <div class="lugar-grid">
+      <div class="lugar-visual reveal">
+        <div class="lugar-img-frame">
+          <svg viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg" class="gallery-svg">
+            <rect width="480" height="600" fill="#DDD8CC"/>
+            <!-- Garden scene -->
+            <rect x="0" y="380" width="480" height="220" fill="#C8C4B0"/>
+            <ellipse cx="240" cy="380" rx="350" ry="80" fill="#BFD4AC"/>
+            <!-- Trees -->
+            <rect x="50" y="220" width="20" height="160" fill="#8A9E78"/>
+            <ellipse cx="60" cy="205" rx="55" ry="70" fill="#6B8A5A"/>
+            <rect x="390" y="200" width="24" height="180" fill="#8A9E78"/>
+            <ellipse cx="402" cy="183" rx="62" ry="78" fill="#5A7A48"/>
+            <rect x="200" y="250" width="16" height="130" fill="#8A9E78"/>
+            <ellipse cx="208" cy="240" rx="42" ry="54" fill="#7B9E66"/>
+            <!-- Table -->
+            <rect x="140" y="400" width="200" height="12" rx="4" fill="#C4A882"/>
+            <rect x="160" y="412" width="12" height="60" fill="#B09870"/>
+            <rect x="308" y="412" width="12" height="60" fill="#B09870"/>
+            <!-- Chairs -->
+            <rect x="110" y="410" width="40" height="8" rx="3" fill="#B8A48C"/>
+            <rect x="330" y="410" width="40" height="8" rx="3" fill="#B8A48C"/>
+            <!-- Flowers -->
+            <circle cx="90" cy="360" r="8" fill="#C4B88C" opacity="0.8"/>
+            <circle cx="380" cy="340" r="10" fill="#A8B890" opacity="0.8"/>
+            <circle cx="310" cy="380" r="6" fill="#C4B88C" opacity="0.8"/>
+            <!-- Sky -->
+            <rect x="0" y="0" width="480" height="250" fill="#E8E4DC"/>
+            <circle cx="380" cy="80" r="50" fill="#F0EAE0" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="lugar-badge">
+          <div class="lugar-badge-inner">
+            Espacio<br>privado
+          </div>
+        </div>
+      </div>
+
+      <div class="lugar-text reveal">
+        <p class="section-tag">El lugar</p>
+        <h2 class="section-title">Donde la naturaleza<br>y el encuentro<br>son <em>protagonistas</em></h2>
+        <div class="divider"></div>
+        <p class="section-body">
+          La Quinta es un espacio privado donde la naturaleza, la tranquilidad y el encuentro son protagonistas. Cada rincón fue construido y cuidado con dedicación, para ofrecer un entorno auténtico donde celebrar momentos especiales.
+        </p>
+        <p class="section-body">
+          Aquí los eventos no son masivos: son encuentros pensados para disfrutar con calma.
+        </p>
+        <a href="#contacto" class="btn-primary" style="margin-top:1rem;">
+          Reservar fecha
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ ACTIVIDADES -->
+<section id="actividades">
+  <div class="container">
+    <div class="actividades-header reveal">
+      <p class="section-tag">Qué se puede hacer</p>
+      <h2 class="section-title">Tres formas de vivir<br><em>La Quinta</em></h2>
+    </div>
+    <div class="actividades-grid">
+
+      <div class="actividad-card reveal">
+        <div class="actividad-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 22V12h6v10" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="actividad-title">Eventos privados</h3>
+        <p class="actividad-desc">Cumpleaños, reuniones familiares, encuentros empresariales y celebraciones en un entorno natural y exclusivo, con capacidad para grupos íntimos.</p>
+      </div>
+
+      <div class="actividad-card reveal" style="transition-delay:0.15s">
+        <div class="actividad-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#5A6B4D" stroke-width="1.5"/>
+            <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M12 8v1M12 15v1M8 12h1M15 12h1" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="actividad-title">Cursos de cocina</h3>
+        <p class="actividad-desc">Clases presenciales en grupos reducidos para aprender y compartir. Una experiencia que combina gastronomía, naturaleza y buena compañía.</p>
+      </div>
+
+      <div class="actividad-card reveal" style="transition-delay:0.3s">
+        <div class="actividad-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 22h8M12 22V11" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M20 7c0 3.31-3.58 6-8 6S4 10.31 4 7" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M4 7V4h16v3" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="actividad-title">Catas y experiencias</h3>
+        <p class="actividad-desc">Eventos gastronómicos, catas y encuentros especiales organizados en La Quinta. Momentos diseñados para disfrutar con todos los sentidos.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ EL ESPACIO -->
+<section id="espacio">
+  <div class="container">
+    <div class="espacio-layout">
+      <div>
+        <div class="reveal">
+          <p class="section-tag">El espacio</p>
+          <h2 class="section-title">Todo pensado<br>para que solo<br><em>disfrutes</em></h2>
+        </div>
+        <div class="specs-grid reveal">
+          <div class="spec-item">
+            <p class="spec-label">Salón</p>
+            <p class="spec-value">Cubierto y ventilado</p>
+          </div>
+          <div class="spec-item">
+            <p class="spec-label">Parque</p>
+            <p class="spec-value">Extenso y arbolado</p>
+          </div>
+          <div class="spec-item">
+            <p class="spec-label">Pileta</p>
+            <p class="spec-value">Con deck y reposeras</p>
+          </div>
+          <div class="spec-item">
+            <p class="spec-label">Parrilla</p>
+            <p class="spec-value">Equipada y lista</p>
+          </div>
+          <div class="spec-item" style="grid-column: 1/-1; border-right: none;">
+            <p class="spec-label">Fogón</p>
+            <p class="spec-value">Para noches especiales</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="section-tag">Horario</p>
+        <div style="margin-top:0.75rem; margin-bottom: 2.5rem;">
+          <p style="font-family: var(--font-display); font-size: 2.2rem; font-weight:400; color: var(--color-accent);">11 — 20 hs</p>
+          <p style="font-size: 0.85rem; color: var(--color-muted); margin-top: 0.4rem;">Todos los días, con reserva previa</p>
+        </div>
+        <div class="capacity-block">
+          <div class="capacity-num">60</div>
+          <div class="capacity-label">personas con mobiliario incluido</div>
+          <div class="capacity-note">Hasta 100 personas con alquiler de mobiliario externo. Consultanos por tu evento y te asesoramos.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ GALERÍA -->
+<section id="galeria">
+  <div class="container">
+    <div class="galeria-header reveal">
+      <p class="section-tag">Galería</p>
+      <h2 class="section-title">El lugar, en imágenes</h2>
+    </div>
+  </div>
+  <div style="width: min(95%, 1200px); margin-inline: auto;">
+    <div class="gallery-grid reveal">
+
+      <!-- Item 1: Parque -->
+      <div class="gallery-item">
+        <svg viewBox="0 0 500 375" class="gallery-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="375" fill="#C8D4B0"/>
+          <rect x="0" y="250" width="500" height="125" fill="#B8C4A0"/>
+          <ellipse cx="100" cy="220" rx="90" ry="110" fill="#7B9E66"/>
+          <rect x="92" y="220" width="16" height="130" fill="#6A8A50"/>
+          <ellipse cx="350" cy="200" rx="110" ry="130" fill="#5A7A48"/>
+          <rect x="342" y="200" width="16" height="150" fill="#4A6A38"/>
+          <ellipse cx="230" cy="240" rx="60" ry="75" fill="#8AAE70"/>
+          <rect x="224" y="240" width="12" height="110" fill="#72944E"/>
+          <rect x="0" y="320" width="500" height="55" fill="#A8B890" opacity="0.5"/>
+          <ellipse cx="250" cy="370" rx="300" ry="60" fill="#98A880" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <!-- Item 2: Pileta -->
+      <div class="gallery-item">
+        <svg viewBox="0 0 375 500" class="gallery-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="375" height="500" fill="#DDD8CC"/>
+          <rect x="0" y="300" width="375" height="200" fill="#C8C4B0"/>
+          <rect x="40" y="250" width="295" height="160" rx="14" fill="#8EC4BC"/>
+          <rect x="46" y="256" width="283" height="148" rx="12" fill="#9ACEC6"/>
+          <line x1="60" y1="280" x2="310" y2="280" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="55" y1="305" x2="315" y2="305" stroke="#fff" stroke-width="1" opacity="0.35"/>
+          <line x1="60" y1="330" x2="310" y2="330" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
+          <rect x="50" y="410" width="60" height="8" rx="4" fill="#C4A882" opacity="0.8"/>
+          <rect x="260" y="410" width="60" height="8" rx="4" fill="#C4A882" opacity="0.8"/>
+          <circle cx="80" cy="230" r="5" fill="#B8A48C" opacity="0.8"/>
+          <circle cx="295" cy="240" r="4" fill="#B8A48C" opacity="0.8"/>
+          <rect x="0" y="0" width="375" height="250" fill="#D8E8D0"/>
+          <ellipse cx="300" cy="80" rx="60" ry="30" fill="#fff" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <!-- Item 3: Detalle natural -->
+      <div class="gallery-item">
+        <svg viewBox="0 0 290 500" class="gallery-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="290" height="500" fill="#E0DCD0"/>
+          <ellipse cx="145" cy="500" rx="200" ry="200" fill="#B8C8A0"/>
+          <path d="M145 450 C100 380, 60 300, 100 200 C120 150, 145 100, 145 50" stroke="#7A9A60" stroke-width="3" fill="none"/>
+          <path d="M145 350 C180 300, 220 280, 250 260" stroke="#7A9A60" stroke-width="2" fill="none"/>
+          <ellipse cx="265" cy="253" rx="30" ry="40" fill="#8AAE70" transform="rotate(30 265 253)"/>
+          <path d="M145 280 C110 240, 70 230, 45 210" stroke="#7A9A60" stroke-width="2" fill="none"/>
+          <ellipse cx="34" cy="204" rx="30" ry="40" fill="#6B9050" transform="rotate(-25 34 204)"/>
+          <path d="M145 200 C175 165, 205 155, 225 140" stroke="#7A9A60" stroke-width="2" fill="none"/>
+          <ellipse cx="236" cy="134" rx="25" ry="35" fill="#7BAA60" transform="rotate(20 236 134)"/>
+          <circle cx="145" cy="50" r="20" fill="#C4B870"/>
+          <circle cx="248" cy="68" r="8" fill="#D4C870" opacity="0.8"/>
+          <circle cx="42" cy="120" r="10" fill="#C8B460" opacity="0.7"/>
+        </svg>
+      </div>
+
+      <!-- Item 4: Salón armado -->
+      <div class="gallery-item">
+        <svg viewBox="0 0 500 375" class="gallery-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="375" fill="#EAE6DC"/>
+          <!-- Walls -->
+          <rect x="50" y="80" width="400" height="220" fill="#DDD8CC"/>
+          <!-- Floor perspective -->
+          <polygon points="50,300 450,300 400,375 100,375" fill="#D0CABC"/>
+          <!-- Tables -->
+          <rect x="100" y="200" width="120" height="70" rx="3" fill="#C8B898"/>
+          <rect x="280" y="200" width="120" height="70" rx="3" fill="#C8B898"/>
+          <!-- Chairs -->
+          <rect x="95" y="195" width="30" height="8" rx="2" fill="#B8A888"/>
+          <rect x="190" y="195" width="30" height="8" rx="2" fill="#B8A888"/>
+          <rect x="275" y="195" width="30" height="8" rx="2" fill="#B8A888"/>
+          <rect x="375" y="195" width="30" height="8" rx="2" fill="#B8A888"/>
+          <!-- Lights -->
+          <circle cx="180" cy="120" r="12" fill="#F0E8C0" opacity="0.8"/>
+          <circle cx="320" cy="120" r="12" fill="#F0E8C0" opacity="0.8"/>
+          <line x1="180" y1="80" x2="180" y2="108" stroke="#C4B880" stroke-width="2"/>
+          <line x1="320" y1="80" x2="320" y2="108" stroke="#C4B880" stroke-width="2"/>
+          <!-- Window -->
+          <rect x="190" y="100" width="120" height="80" rx="2" fill="#BFD4C0" opacity="0.6"/>
+          <!-- Flowers on tables -->
+          <circle cx="160" cy="195" r="8" fill="#C4A870" opacity="0.9"/>
+          <circle cx="340" cy="195" r="8" fill="#C4A870" opacity="0.9"/>
+        </svg>
+      </div>
+
+      <!-- Item 5: Evento pequeño -->
+      <div class="gallery-item">
+        <svg viewBox="0 0 375 375" class="gallery-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="375" height="375" fill="#D8E0D0"/>
+          <rect x="0" y="270" width="375" height="105" fill="#C0C8B0"/>
+          <!-- People silhouettes -->
+          <circle cx="100" cy="220" r="22" fill="#8A9E78"/>
+          <rect x="82" y="242" width="36" height="60" rx="10" fill="#7A8E68"/>
+          <circle cx="190" cy="210" r="24" fill="#9AAE80"/>
+          <rect x="170" y="234" width="40" height="66" rx="10" fill="#8A9E70"/>
+          <circle cx="280" cy="225" r="20" fill="#7A9468"/>
+          <rect x="263" y="245" width="34" height="55" rx="10" fill="#6A8458"/>
+          <!-- Table -->
+          <rect x="60" y="295" width="255" height="10" rx="4" fill="#C4A882"/>
+          <!-- Glasses -->
+          <rect x="120" y="270" width="8" height="25" rx="4" fill="#B8D0C0" opacity="0.9"/>
+          <rect x="190" y="265" width="8" height="30" rx="4" fill="#B8D0C0" opacity="0.9"/>
+          <rect x="240" y="272" width="8" height="23" rx="4" fill="#B8D0C0" opacity="0.9"/>
+          <!-- Background trees -->
+          <ellipse cx="30" cy="150" rx="50" ry="65" fill="#5A7A48" opacity="0.7"/>
+          <ellipse cx="345" cy="140" rx="45" ry="60" fill="#4A6A38" opacity="0.7"/>
+          <!-- Sky -->
+          <rect x="0" y="0" width="375" height="180" fill="#E0ECD8"/>
+          <ellipse cx="290" cy="60" rx="70" ry="35" fill="#fff" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <!-- Item 6: Fogón / noche -->
+      <div class="gallery-item">
+        <svg viewBox="0 0 375 375" class="gallery-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="375" height="375" fill="#2A2E24"/>
+          <!-- Night sky -->
+          <circle cx="80" cy="50" r="2" fill="#fff" opacity="0.6"/>
+          <circle cx="200" cy="30" r="1.5" fill="#fff" opacity="0.5"/>
+          <circle cx="310" cy="60" r="2" fill="#fff" opacity="0.7"/>
+          <circle cx="150" cy="80" r="1" fill="#fff" opacity="0.4"/>
+          <circle cx="340" cy="100" r="1.5" fill="#fff" opacity="0.5"/>
+          <!-- Trees silhouette -->
+          <ellipse cx="50" cy="200" rx="70" ry="90" fill="#1A2018"/>
+          <ellipse cx="320" cy="190" rx="75" ry="95" fill="#1A2018"/>
+          <!-- Ground -->
+          <rect x="0" y="310" width="375" height="65" fill="#1E2218"/>
+          <!-- Fire -->
+          <ellipse cx="188" cy="310" rx="40" ry="12" fill="#3A2808"/>
+          <path d="M170 310 C165 280, 175 250, 188 220 C201 250, 210 280, 206 310 Z" fill="#E87820" opacity="0.9"/>
+          <path d="M178 310 C174 285, 182 262, 188 240 C194 262, 200 285, 198 310 Z" fill="#F0A030"/>
+          <path d="M183 308 C181 290, 186 272, 188 258 C190 272, 193 290, 193 308 Z" fill="#F8E060"/>
+          <!-- Fire glow -->
+          <circle cx="188" cy="290" r="60" fill="#E87820" opacity="0.15"/>
+          <circle cx="188" cy="290" r="35" fill="#F0A030" opacity="0.2"/>
+          <!-- Logs -->
+          <rect x="155" y="306" width="66" height="8" rx="4" fill="#4A3420" transform="rotate(-10 188 310)"/>
+          <rect x="160" y="306" width="60" height="8" rx="4" fill="#4A3420" transform="rotate(10 188 310)"/>
+          <!-- People silhouettes -->
+          <circle cx="100" cy="295" r="14" fill="#1A1E14"/>
+          <rect x="88" y="309" width="24" height="40" rx="8" fill="#1A1E14"/>
+          <circle cx="276" cy="290" r="14" fill="#1A1E14"/>
+          <rect x="264" y="304" width="24" height="45" rx="8" fill="#1A1E14"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ TESTIMONIOS -->
+<section id="testimonios">
+  <div class="container">
+    <div class="testimonios-header reveal">
+      <p class="section-tag">Lo que dicen</p>
+      <h2 class="section-title">Quienes vivieron<br><em>La Quinta</em></h2>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">Celebramos el cumpleaños de mi mamá y fue exactamente lo que buscábamos. Un lugar tranquilo, íntimo, con una energía muy especial. Todos quedaron enamorados.</p>
+        <p class="testi-author">Valentina R.</p>
+        <p class="testi-role">Evento familiar, 45 personas</p>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:0.15s">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">El curso de cocina fue una experiencia increíble. El espacio, la atención, el entorno verde... Terminamos todos queriendo volver al mes siguiente.</p>
+        <p class="testi-author">Marcos T.</p>
+        <p class="testi-role">Curso de cocina, grupo de 12</p>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:0.3s">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">Organizamos una cata para el equipo y fue perfecta. Nada corporativo, todo auténtico. La Quinta tiene algo difícil de explicar: hace que todo fluya.</p>
+        <p class="testi-author">Carolina M.</p>
+        <p class="testi-role">Cata empresarial, 30 personas</p>
+      </div>
+    </div>
+
+    <div class="metricas reveal">
+      <div class="metrica">
+        <div class="metrica-num">+200</div>
+        <div class="metrica-label">eventos realizados</div>
+      </div>
+      <div class="metrica">
+        <div class="metrica-num">4.9</div>
+        <div class="metrica-label">puntuación promedio</div>
+      </div>
+      <div class="metrica">
+        <div class="metrica-num">8</div>
+        <div class="metrica-label">años compartiendo el espacio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ CUIDADO -->
+<section id="cuidado">
+  <div class="container">
+    <div class="cuidado-inner">
+      <div class="reveal">
+        <h2 class="cuidado-title">Un espacio construido<br>con tiempo<br>y dedicación</h2>
+      </div>
+      <div class="reveal">
+        <p class="cuidado-text">
+          La Quinta es un espacio construido con tiempo y dedicación. Pedimos a quienes nos visitan acompañar este espíritu, cuidando el entorno natural y respetando el espacio.
+        </p>
+        <p class="cuidado-text" style="margin-top: 1rem;">
+          Creemos que los mejores encuentros ocurren cuando el entorno está en armonía. Por eso cuidamos cada detalle: para que vos solo tengas que disfrutar.
+        </p>
+      </div>
+    </div>
+  </div>
+  <svg class="cuidado-leaf" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 280 C100 280, 20 200, 20 120 C20 40, 100 10, 100 10 C100 10, 180 40, 180 120 C180 200, 100 280, 100 280Z" fill="#F7F5F1"/>
+    <path d="M100 280 C100 280, 100 10, 100 10" stroke="#F7F5F1" stroke-width="3" fill="none" opacity="0.5"/>
+    <path d="M100 200 C70 180, 40 160, 30 130" stroke="#F7F5F1" stroke-width="1.5" fill="none" opacity="0.4"/>
+    <path d="M100 160 C130 140, 155 120, 165 95" stroke="#F7F5F1" stroke-width="1.5" fill="none" opacity="0.4"/>
+  </svg>
+</section>
+
+<!-- ═══════════════════════════════════════════ CONTACTO -->
+<section id="contacto">
+  <div class="container">
+    <div class="contacto-grid">
+
+      <div class="contacto-info reveal">
+        <p class="section-tag">Contacto</p>
+        <h2 class="section-title">Contanos<br>tu <em>idea</em></h2>
+        <div class="divider"></div>
+        <ul class="contacto-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#5A6B4D" stroke-width="1.5"/>
+              <circle cx="12" cy="9" r="2.5" stroke="#5A6B4D" stroke-width="1.5"/>
+            </svg>
+            <div>
+              <strong>Ubicación</strong>
+              Balcarce, Buenos Aires, Argentina
+            </div>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px">
+              <circle cx="12" cy="12" r="10" stroke="#5A6B4D" stroke-width="1.5"/>
+              <path d="M12 6v6l4 2" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <strong>Horario</strong>
+              Lunes a domingo de 11 a 20 hs
+            </div>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px">
+              <rect x="3" y="4" width="18" height="18" rx="2" stroke="#5A6B4D" stroke-width="1.5"/>
+              <path d="M16 2v4M8 2v4M3 10h18" stroke="#5A6B4D" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <strong>Reservas</strong>
+              Con anticipación mínima de 2 semanas
+            </div>
+          </li>
+        </ul>
+        <a href="https://wa.me/5492266000000" class="wa-btn" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Escribir por WhatsApp
+        </a>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.2s">
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="nombre">Nombre</label>
+              <input class="form-input" type="text" id="nombre" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="evento">Tipo de evento</label>
+              <select class="form-select" id="evento" required>
+                <option value="" disabled selected>Seleccioná</option>
+                <option>Evento privado</option>
+                <option>Curso de cocina</option>
+                <option>Cata o experiencia</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fecha">Fecha tentativa</label>
+              <input class="form-input" type="date" id="fecha" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="personas">Cantidad de personas</label>
+              <input class="form-input" type="number" id="personas" placeholder="Ej: 40" min="1" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mensaje">Tu consulta</label>
+            <textarea class="form-textarea" id="mensaje" placeholder="Contanos un poco sobre tu idea..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Consultar evento →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          ¡Gracias por escribirnos!<br>
+          <span style="font-size:0.9rem; font-weight:300; font-style:normal; color: var(--color-muted);">Nos ponemos en contacto en las próximas horas.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ CTA FINAL -->
+<section id="cta-final">
+  <div class="cta-final-bg">
+    <p class="cta-watermark">La Quinta</p>
+  </div>
+  <div class="container">
+    <div class="cta-final-content reveal">
+      <p class="cta-final-tag">¿Tenés una fecha en mente?</p>
+      <h2 class="cta-final-title">
+        Reservá tu lugar en<br><em>La Quinta</em> antes de que<br>alguien más lo haga
+      </h2>
+      <p class="cta-final-sub">El espacio es limitado. Los mejores fines de semana se agotan rápido.</p>
+      <a href="#contacto" class="btn-primary" style="margin-inline: auto;">
+        Consultar disponibilidad
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8H13M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <p class="footer-brand">La Quinta</p>
+        <p class="footer-tagline">Un espacio privado rodeado de naturaleza, pensado para encuentros especiales, celebraciones y experiencias gastronómicas.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navegar</p>
+        <ul class="footer-links">
+          <li><a href="#lugar">El lugar</a></li>
+          <li><a href="#actividades">Qué hacemos</a></li>
+          <li><a href="#espacio">El espacio</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Experiencias</p>
+        <ul class="footer-links">
+          <li><a href="#actividades">Eventos privados</a></li>
+          <li><a href="#actividades">Cursos de cocina</a></li>
+          <li><a href="#actividades">Catas</a></li>
+          <li><a href="#contacto">Consultas</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 La Quinta · Balcarce, Buenos Aires</p>
+      <a href="#hero" class="footer-back">
+        Volver arriba
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 11V3M3 7l4-4 4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════ JS -->
+<script>
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.style.display = 'none';
+    success.style.display = 'block';
+  });
+
+  // Counter animation for metrics
+  function animateCounter(el, target, duration = 1600) {
+    let start = null;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const val = Math.floor(ease * target);
+      el.textContent = prefix + (val >= 10 || target < 10 ? val : '0' + val) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const metricObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const els = entry.target.querySelectorAll('.metrica-num');
+        const values = [200, 49, 8];
+        const suffixes = ['+', '', ''];
+        const divisors = [1, 10, 1];
+        els.forEach((el, i) => {
+          el.dataset.suffix = suffixes[i];
+          animateCounter(el, values[i] * divisors[i], 1800);
+          if (i === 1) {
+            // Special case for 4.9
+            let start = null;
+            const step = (timestamp) => {
+              if (!start) start = timestamp;
+              const progress = Math.min((timestamp - start) / 1800, 1);
+              const ease = 1 - Math.pow(1 - progress, 3);
+              el.textContent = (ease * 4.9).toFixed(1);
+              if (progress < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+          }
+        });
+        metricObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const metricas = document.querySelector('.metricas');
+  if (metricas) metricObserver.observe(metricas);
+</script>
+</body>
+</html>
